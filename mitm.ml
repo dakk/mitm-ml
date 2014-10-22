@@ -70,7 +70,7 @@ let middleJob mx y istart iend i =
 
 
 (* Multi process attack *)
-let middleAttack mx y =
+(*let middleAttack mx y =
 	let step = keynum/procs in
 	let rec deploy nxst i =
 		if i = 0 then ()
@@ -80,7 +80,7 @@ let middleAttack mx y =
 				| pid -> deploy (nxst+step) (i-1)
 	in deploy 0 procs
 ;;
-
+*)
 
 
 let () =
