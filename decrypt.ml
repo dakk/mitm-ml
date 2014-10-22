@@ -8,7 +8,6 @@ let round_number = 2;;
 (** SUBSTITUTION' e SUBSTITUTION **)
 (*  Effettua una sostituzione (inversa) fissata su stringhe 4 bit (da modificare se si varia la sbox_size) *)
 let substitution' str = 
-	if (String.length str <> 4) then failwith "Invalid sbox size!" else
 	match str with
 		"0101" -> "0000"
 	| "1100" -> "0001"
@@ -45,10 +44,7 @@ let rec permutation' str l  =
 ;;
 
 let permutation str =
-	if (String.length str == sbox_size * sbox_number) then 
-		permutation' str [62; 10; 42; 18; 39; 2; 28; 13; 56; 61; 60; 45; 53; 51; 24; 38; 27; 49; 50;58; 17; 30; 48; 4; 63; 59; 44; 16; 21; 31; 19; 57; 20; 23; 12; 26; 37; 5; 8;35; 3; 34; 41; 32; 29; 25; 6; 52; 22; 40; 43; 1; 55; 14; 36; 9; 47; 46; 11;15; 33; 0; 54; 7]
-	else
-		failwith "Invalid pbox size!"
+	permutation' str [62; 10; 42; 18; 39; 2; 28; 13; 56; 61; 60; 45; 53; 51; 24; 38; 27; 49; 50;58; 17; 30; 48; 4; 63; 59; 44; 16; 21; 31; 19; 57; 20; 23; 12; 26; 37; 5; 8;35; 3; 34; 41; 32; 29; 25; 6; 52; 22; 40; 43; 1; 55; 14; 36; 9; 47; 46; 11;15; 33; 0; 54; 7]
 ;;
 
 (** BSTR_XOR **)
@@ -56,8 +52,6 @@ let permutation str =
 let rec bstr_xor s1 s2 =
 	let len1 = String.length s1 in
 	let len2 = String.length s2 in
-	if (len1 <> len2) then failwith "Cannot xor binary strings with different size!"
-	else
 		if (len1 == 0) then "" else
 		let c1 = String.get s1 0 in
 		let c2 = String.get s2 0 in
@@ -73,8 +67,7 @@ let rec bstr_xor s1 s2 =
 (** GET_KEY **)
 (*  Genera una chiave univoca a partire dalla chiave base e dal seed passato (tra 1 e 256) *)
 let get_key key seed = 
-	if (seed > 256 || seed < 1) then failwith "Invalid seed for generating keychain!" else
-		let key_seed =
+	let key_seed =
   	bstr_xor ((String.sub key 19 6) ^ "01")  (Utils.char_to_binary (Char.chr ((255 - seed)*246 mod 256))) ^
   	bstr_xor (String.sub key 12 8) (Utils.char_to_binary (Char.chr ((seed + 25) mod 256))) ^
   	bstr_xor ("00" ^ (String.sub key 14 5) ^ "1") (Utils.char_to_binary (Char.chr ((255 - seed)*37 mod 256))) ^
@@ -137,16 +130,11 @@ let rec cbc' str key vec =
 ;;
 
 let cbc str key =
-	if (String.length key == 8) then 
-	(
   	try
   		Utils.unescape (Utils.binary_to_hex (unpad (cbc' (Utils.hex_to_binary str) key (Utils.zero_padding 64))))
   	with
   		x -> "Cannot unescape the decrypted text! Unescaped version here:\n\n" ^ 
   		Utils.binary_to_hex (unpad (cbc' (Utils.hex_to_binary str) key (Utils.zero_padding 64)))
-	)
-	else
-		failwith "Wrong input! Only 32-bit keys are supported: please use 4 alphanumeric chars as a key!"
 ;;
 
 

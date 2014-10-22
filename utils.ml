@@ -41,7 +41,6 @@ let rec hex_to_binary k =
 (* 	Converte una stringa binaria in una stringa esadecimale *)
 let rec binary_to_hex k =
 	let len = String.length k in
-	if (len mod 4 <> 0) then failwith "Binary string must have a length that is a multiple of 4!" else
 	let s' = if (len>4) then binary_to_hex (String.sub k 4 (String.length k - 4)) else "" in
 	match String.sub k 0 4 with
 	  "0000" -> "0" ^ s'
