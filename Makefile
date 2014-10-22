@@ -1,4 +1,4 @@
-FLAGS = -inline 20 -nodynlink -fno-PIC
+FLAGS = -inline 1000 -nodynlink -fno-PIC
 all:
 	ocamlopt -c utils.ml $(FLAGS)
 	ocamlopt -c encrypt.ml $(FLAGS)
