@@ -1,5 +1,19 @@
 (* 
-	20bit -> 1M keys -> 15 minuti
+	Pc:
+		20bit -> 1M keys -> 15 minuti
+
+	Server:
+		20bit -> 1Mkeys -> 5 + nlogn
+		28bit -> 268M keys -> 
+			Ph1 = 268*5minuti circa -> 22 ore
+			Ph2 = circa 15 ore
+		Circa 268*7*2 = 4GB memoria non posso parallelizzare e mi serve swap
+
+	Nel server fa 50KHash in 15 secondi -> 
+		50 : 15 = x : 1
+		x = 50/15= 3.3KH/s
+
+	
 *)
 open Unix;;
 
@@ -7,7 +21,7 @@ module Middle = Map.Make(String);;
 let bits = 20;;
 let hexchar = bits / 4;;
 let keynum = 1048576;;
-let procs = 4;;
+let procs = 1;;
 
 let int_to_hexs i = 
 	let s = Printf.sprintf "%04x" i in
@@ -73,5 +87,5 @@ let () =
 	let dataX = "7B652692CFB963A7" in
 	let dataY = "A373589BC4F1A5D3" in
 	let middleX = Printf.printf "Creating middleX...\n%!"; middleMake Encrypt.encrypt dataX in
-	Printf.printf "\nSearching meets...\n%!"; middleAttack middleX dataY
+	Printf.printf "\nSearching meets...\n%!"; middleAttackSingle middleX dataY
 ;;
