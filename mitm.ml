@@ -15,7 +15,7 @@
 
 	
 *)
-open Unix;;
+(*open Unix;;*)
 
 module Middle = Map.Make(String);;
 let bits = 20;;

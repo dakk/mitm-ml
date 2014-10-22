@@ -130,11 +130,7 @@ let rec cbc' str key vec =
 ;;
 
 let cbc str key =
-  	try
-  		Utils.unescape (Utils.binary_to_hex (unpad (cbc' (Utils.hex_to_binary str) key (Utils.zero_padding 64))))
-  	with
-  		x -> "Cannot unescape the decrypted text! Unescaped version here:\n\n" ^ 
-  		Utils.binary_to_hex (unpad (cbc' (Utils.hex_to_binary str) key (Utils.zero_padding 64)))
+	Utils.binary_to_hex (unpad (cbc' (Utils.hex_to_binary str) key (Utils.zero_padding 64)))
 ;;
 
 

@@ -104,7 +104,8 @@ let rec binary_to_string' str =
 		Char.escaped (binary_to_char (String.sub str 0 8)) ^ binary_to_string' (String.sub str 8 len)
 ;;
 
-let rec binary_to_string str = unescape (binary_to_string' str);;
+let rec binary_to_string str = (binary_to_string' str);;
+
 
 (** STRING_TO_BINARY **)
 (*  Come sopra, ma in direzione opposta *)
