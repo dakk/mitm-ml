@@ -64,17 +64,6 @@ let rec binary_to_hex k =
 
 
 
-(** UNESCAPE **)
-(*  Effettua l'unescape dei caratteri speciali sulla stringa passata *)
-let unescape =
-	let lexer = lazy (Genlex.make_lexer []) in
-	fun s ->
-		let tok_stream = Lazy.force lexer (Stream.of_string ("\"" ^ s ^ "\"")) in
-		match Stream.peek tok_stream with
-		| Some (Genlex.String s) -> s
-		| _ -> assert false
-;;
-
 
 (** CHAR_TO_BINARY **)
 (*  Converte un carattere in una stringa binaria di 8 bit *)
@@ -125,29 +114,6 @@ let rec reverse str =
 ;;
 
 
-
-(** READ_INPUT **)
-(*  Legge dal canale di input e restituisce tutte le righe in una lista di stringhe *)
-let read_input chan = 
-let lines = ref [] in
-try
-  while true;
-	do
-    	lines := (input_line chan):: !lines
-  done; []
-	with End_of_file -> 
-		close_in chan; 
-		List.rev !lines
-;; 
-
-
-(** JOIN_STRINGS **)
-(*  Data una lista di stringhe, le concatena e restituisce una stringa unica *)
-let rec join_strings l = match l with
-		[] -> ""
-	| str::l' -> str ^ (join_strings l')
-;;
-
 (* Il programma nasce per gestire chiavi di 32 bit ed estenderle a 64 bit per adattarla al blocco.
    L'informazione per raddoppiare le chiavi è comunque contenuta nei 32 bit scelti dall'utente.
 	 La funzione qua sotto consente di usare anche chiavi da 20, 24 o 28 bit (per il challenge), 
@@ -159,56 +125,6 @@ let extend_key str len =
 	if (len == 7) then "0" ^ str else
 	str
 ;;
-
-
-(*
-(** NUOVE FUNZIONI DI APPOGGIO PER IL CHALLENGE **)
-let rec is_hex str = 
-	if (String.length str < 1) then true
-	else
-		let s' = String.sub str 1 (String.length str - 1) in 
-		match str.[0] with
-		| '0' -> true && is_hex s'
-		| '1' -> true && is_hex s'
-		| '2' -> true && is_hex s'
-		| '3' -> true && is_hex s'
-		| '4' -> true && is_hex s'
-		| '5' -> true && is_hex s'
-		| '6' -> true && is_hex s'
-		| '7' -> true && is_hex s'
-		| '8' -> true && is_hex s'
-		| '9' -> true && is_hex s'
-		| 'A' -> true && is_hex s'
-		| 'B' -> true && is_hex s'
-		| 'C' -> true && is_hex s'
-		| 'D' -> true && is_hex s'
-		| 'E' -> true && is_hex s'
-		| 'F' -> true && is_hex s'
-		| _ -> false
-;;
-
-let check_hex str = 
-	let len = String.length str in
-	if (len > 4 && len < 9) then 
-		(
-		let s = String.uppercase (extend_key str len) in 
-		if is_hex s then s else
-			failwith "The plaintext must be a valid hexadecimal string!"
-		)
-	else failwith "The encryption key must be of 20, 24, 28 or 32 bits (5-8 hexadecimal chars)."
-;;
-
-let check_input str =
-	let len = String.length str in
-	if (len == 16) then 
-		(
-		let s = String.uppercase (str) in 
-		if is_hex s then s else
-			failwith "The plaintext must be a valid hexadecimal string!"
-		)
-	else failwith "This software version works only on plaintexts of 16 hexadecimal chars (64-bit)."
-;;
-*)
 
 
 let check_input str = String.uppercase (str);;
