@@ -13,6 +13,22 @@
 		50 : 15 = x : 1
 		x = 50/15= 3.3KH/s
 
+
+	Chiavi da 20:
+		1. 7B652692CFB963A7 - A373589BC4F1A5D3
+		2. 06A28C53C3B1F141 - 28E2B778C5A2EEA1
+		3. 20B080D0A6ED905E - 60F861BF24E89BC0
+
+		k1 = 56cc0 k2 = f71ea
+
+	Chiavi da 24:
+		k1 = k2 =
+	
+	Chiavi da 28:
+		k1 = k2 =
+	
+	Chiavi da 32:
+		k1 = k2 =
 	
 *)
 (*open Unix;;*)
