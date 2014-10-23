@@ -102,11 +102,11 @@ let cipher str key = spn_alg str (Utils.hex_to_binary key);;
 (** PAD - DISABLED **)
 (*  Effettua un padding 100...00 alla stringa in input; la lunghezza del padding e' tale per cui
     la lunghezza della stringa risultante mod 64 = 0 *)
-let rec pad str = 
+(*let rec pad str = 
 	if ((String.length str) mod 64 <> 0) then
 		str ^ "1" ^ Utils.zero_padding (63 - ((String.length str) mod 64))
 	else
-		str ^ "1" ^ Utils.zero_padding 63;;
+		str ^ "1" ^ Utils.zero_padding 63;;*)
 
 let pad str = str;; (* Dummy function *)
 
