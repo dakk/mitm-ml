@@ -32,11 +32,18 @@
 	
 *)
 (*open Unix;;*)
+let pow x y =
+	let rec pow' x' y' = match y' with
+		| 1 -> x'
+		| i -> pow' (x'*x) (y'-1)
+	in pow' x y
+;;
+
 
 module Middle = Map.Make(String);;
 let bits = 20;;
 let hexchar = bits / 4;;
-let keynum = 1048576;;
+let keynum = pow 2 bits;;
 let procs = 1;;
 
 let int_to_hexs i = 
@@ -47,12 +54,13 @@ let int_to_hexs i =
 ;;
 
 
+(* k : x = keynum : 100            x = 100 * k / keynum *)
 
 let middleMake f d =
 	let rec middle k m =
 		if k <= keynum then
 			let khex = (int_to_hexs k) in
-			if k mod 50000 = 0 then Printf.printf "%d ...%! " k else ();
+			if k mod 50000 = 0 then Printf.printf "%d ... (%d%%) %! " k (k*100/keynum) else ();
 			middle (k+1) (Middle.add (f khex d) khex m)
 		else m
 	in middle 0 Middle.empty
