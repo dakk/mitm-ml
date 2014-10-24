@@ -113,6 +113,6 @@ let middleJob mx y istart iend i =
 let () =
 	let dataX = "7B652692CFB963A7" in
 	let dataY = "A373589BC4F1A5D3" in
-	let middleX = Printf.printf "Creating middleX...\n%!"; middleMake Encrypt.encrypt dataX in
+	let middleX = Printf.printf "Creating middleX...\n%!"; middleMake dataX in
 	Printf.printf "\nSearching meets...\n%!"; middleAttackSingle middleX dataY
 ;;

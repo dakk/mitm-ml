@@ -34,7 +34,6 @@
 		k1 = k2 =
 	
 *)
-(*open Unix;;*)
 let pow x y =
 	let rec pow' x' y' = match y' with
 		| 1 -> x'
@@ -42,10 +41,14 @@ let pow x y =
 	in pow' x y
 ;;
 
-let bits = 20;;
+let bits = 24;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
 let procs = 1;;
+let dataX = "7B652692CFB963A7";;
+let dataY = "A373589BC4F1A5D3";;
+let middleX = Hashtbl.create keynum;;
+
 
 let int_to_hexs i = 
 	let s = Printf.sprintf "%04x" i in
@@ -79,13 +82,6 @@ let middleAttackSingle mx y =
 			with Not_found -> ();
 	done
 ;;
-
-
-
-
-let dataX = "7B652692CFB963A7";;
-let dataY = "A373589BC4F1A5D3";;
-let middleX = Hashtbl.create keynum;;
 
 
 
