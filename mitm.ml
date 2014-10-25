@@ -25,7 +25,8 @@
 		k1 = 56cc0 k2 = f71ea
 
 	Chiavi da 24:
-		k1 = k2 =
+		k1 = 0cabde && k2 = b7bb1e
+
 	
 	Chiavi da 28:
 		k1 = k2 =
@@ -90,6 +91,7 @@ let middleMake d mx =
 
 let middleAttackSingle mx y =
 	for k2 = 0 to keynum do
+		let k2 = keynum-k2 in
 		let k2hex = (int_to_hexs k2) in
 		let ed = Decrypt.decrypt k2hex y in
 			try
