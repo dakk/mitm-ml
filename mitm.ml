@@ -57,6 +57,8 @@ let keynum = pow 2 bits;;
 let procs = 1;;
 let dataX = "D387820F5FE7AB9B";;
 let dataY = "F8F38F88A1E44ADA";;
+let start = 0;;
+let n = keynum;;
 
 
 let middleX = Hashtbl.create keynum;;
@@ -73,14 +75,15 @@ let int_to_hexs i =
 
 
 let middleMake d mx =
+	let n' = start + n in
 	let rec middle k =
-		if k <= keynum then
+		if k <= n' then
 			let khex = (int_to_hexs k) in
-			if k mod 50000 = 0 then Printf.printf "%d ... (%d%%) %! " k (k*100/keynum) else ();
+			if k mod 50000 = 0 then Printf.printf "%d ... (%d%%) %! " k ((k-start)*100/n) else ();
 			Hashtbl.add mx (Encrypt.encrypt khex d) khex;
 			middle (k+1)
 		else ()
-	in middle 0
+	in middle start
 ;;
 
 
