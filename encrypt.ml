@@ -62,7 +62,6 @@ let rec bstr_xor s1 s2 =
 
 
 
-
 (** GET_KEY **)
 (*  Genera una chiave univoca a partire dalla chiave base e dal seed passato (tra 1 e 256) *)
 let get_key key seed = 

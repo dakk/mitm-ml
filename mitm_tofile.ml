@@ -44,6 +44,8 @@
 	
 	Devo fare un qualcosa che scriva su file la chiave risultante.
 *)
+open Unix;;
+
 let pow x y =
 	let rec pow' x' y' = match y' with
 		| 1 -> x'
@@ -51,17 +53,17 @@ let pow x y =
 	in pow' x y
 ;;
 
-let bits = 24;;
+let bits = 20;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
 let procs = 1;;
 let dataX = "D060DE9D62FC44AF";;
 let dataY = "F20738482D826699";;
 
-(* 
-	Start at 2.15 
-	./mitm_tofile 0 > /home/dak/e1.txt && sort /home/dak/e1.txt | uniq -d -w 16
-
+(*  
+	./mitm_tofile > ~/e1.txt
+	sort --parallel=4 -T ~/tmp -s -n -k 1,1 ~/e1.txt > ~/e2.txt 
+	python find_match.py > res.txt 
 *)
 
 let int_to_hexs i = 
@@ -71,8 +73,6 @@ let int_to_hexs i =
 	else s
 ;;
 
-
-(* k : x = keynum : 100            x = 100 * k / keynum *)
 
 let middleMake d f start n =
 	let rec middle k =
@@ -85,7 +85,20 @@ let middleMake d f start n =
 ;;
 
 
+(* Multi process attack *)
+let middleMakeMulti d f nprocs =
+	let step = keynum/nprocs in
+	let rec deploy nxst i =
+		if i = 0 then ()
+		else
+			match fork () with
+				| 0 -> middleMake d f nxst (nxst+step)
+				| pid -> deploy (nxst+step) (i-1)
+	in deploy 0 nprocs
+;;
+
+
 let () =
-	middleMake dataX (Encrypt.encrypt) (keynum/6) (keynum/3); 
-	(*middleMake dataY (Decrypt.decrypt) 0 keynum;*)
+	middleMakeMulti dataX (Encrypt.encrypt) 2; 
+	middleMakeMulti dataY (Decrypt.decrypt) 2;
 ;;

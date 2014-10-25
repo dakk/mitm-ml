@@ -18,7 +18,7 @@ tofile:
 	ocamlopt -c encrypt.ml $(FLAGS)
 	ocamlopt -c decrypt.ml $(FLAGS)
 	ocamlopt -c mitm_tofile.ml $(FLAGS)
-	ocamlopt utils.cmx encrypt.cmx decrypt.cmx mitm_tofile.cmx -o mitm_tofile $(FLAGS)
+	ocamlopt unix.cmxa utils.cmx encrypt.cmx decrypt.cmx mitm_tofile.cmx -o mitm_tofile $(FLAGS)
 	
 
 clean:
