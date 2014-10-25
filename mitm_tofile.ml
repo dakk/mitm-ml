@@ -56,14 +56,18 @@ let pow x y =
 let bits = 28;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
-let dataX = "6AAF402B1F93400D";;
-let dataY = "A4CFB906C800C3D9 ";;
+let dataX = "17CA0E8D36BA3E5A";;
+let dataY = "9FEBE85F56228FC5 ";;
 
 (*  
 	./mitm_tofile e > ~/e1.txt
 	./mitm_tofile d > ~/d1.txt
 
-	sort --parallel=4 -T ~/tmp -s -n -k 1,1 ~/e1.txt > ~/e2.txt 
+
+	cat ~/e1 ~/d1 > ~/ED.txt
+ 
+	sort --parallel=4 -T ~/tmp -s -n -k 1,1 ~/ED.txt > ~/e2.txt 
+
 	python find_match.py > res.txt 
 *)
 
@@ -107,4 +111,4 @@ let op n =
 		middleMakeMulti dataY (Decrypt.decrypt) n
 ;;
 
-let () = op 2;;
+let () = op 1;;
