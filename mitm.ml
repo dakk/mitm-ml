@@ -113,7 +113,6 @@ let middleJob mx y istart iend i =
 				let k1 = Hashtbl.find mx ed in Printf.printf "k1 = %s && k2 = %s\n%!" k1 k2hex
 			with Not_found -> ();
 	done;
-	Printf.printf "%d - End\n%!" i;
 ;;
 
 
@@ -132,12 +131,12 @@ let middleAttack mx y nprocs =
 
 
 
-	let nprocs = 
-		if (Array.length Sys.argv) > 1 then
-			(Scanf.sscanf (Sys.argv.(1)) "%d" (fun n -> n))
-		else
-			0
-	;;
+let nprocs = 
+	if (Array.length Sys.argv) > 1 then
+		(Scanf.sscanf (Sys.argv.(1)) "%d" (fun n -> n))
+	else
+		0
+;;
 
 
 let () =
