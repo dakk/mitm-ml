@@ -45,6 +45,8 @@
 	
 	Devo fare un qualcosa che scriva su file la chiave risultante.
 *)
+open Unix;;
+
 let pow x y =
 	let rec pow' x' y' = match y' with
 		| 1 -> x'
@@ -102,9 +104,48 @@ let middleAttackSingle mx y =
 
 
 
+let middleJob mx y istart iend i =
+	Printf.printf "%d - Start from %d to %d\n%!" i istart iend;
+	for k2 = istart to iend do
+		let k2hex = (int_to_hexs k2) in
+		let ed = Decrypt.decrypt k2hex y in
+			try
+				let k1 = Hashtbl.find mx ed in Printf.printf "k1 = %s && k2 = %s\n%!" k1 k2hex
+			with Not_found -> ();
+	done;
+	Printf.printf "%d - End\n%!" i;
+;;
+
+
+
+(* Multi process attack *)
+let middleAttack mx y nprocs =
+	let step = keynum/nprocs in
+	let rec deploy nxst i =
+		if i = 0 then ()
+		else
+			match fork () with
+				| 0 -> middleJob mx y nxst (nxst+step) i
+				| pid -> deploy (nxst+step) (i-1)
+	in deploy 0 nprocs
+;;
+
+
+
+	let nprocs = 
+		if (Array.length Sys.argv) > 1 then
+			(Scanf.sscanf (Sys.argv.(1)) "%d" (fun n -> n))
+		else
+			0
+	;;
+
+
 let () =
 	Printf.printf "Creating middleX...\n%!";
 	middleMake dataX middleX;
 	Printf.printf "\nSearching meets...\n%!"; 
-	middleAttackSingle middleX dataY
+	if nprocs = 0 then 
+		middleAttackSingle middleX dataY
+	else
+		middleAttack middleX dataY nprocs
 ;;
