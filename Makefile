@@ -4,7 +4,7 @@ all:
 	ocamlopt -c encrypt.ml $(FLAGS)
 	ocamlopt -c decrypt.ml $(FLAGS)
 	ocamlopt -c mitm.ml $(FLAGS)
-	ocamlopt utils.cmx encrypt.cmx decrypt.cmx mitm.cmx -o mitm $(FLAGS)
+	ocamlopt unix.cmxa utils.cmx encrypt.cmx decrypt.cmx mitm.cmx -o mitm $(FLAGS)
 
 map:
 	ocamlopt -c utils.ml $(FLAGS)
