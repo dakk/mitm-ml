@@ -55,12 +55,14 @@ let bits = 24;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
 let procs = 1;;
-let dataX = "D387820F5FE7AB9B";;
-let dataY = "F8F38F88A1E44ADA";;
+let dataX = "D060DE9D62FC44AF";;
+let dataY = "F20738482D826699";;
 
+(* 
+	Start at 2.15 
+	./mitm_tofile 0 > /home/dak/e1.txt && sort /home/dak/e1.txt | uniq -d -w 16
 
-let middleX = Hashtbl.create keynum;;
-
+*)
 
 let int_to_hexs i = 
 	let s = Printf.sprintf "%04x" i in
@@ -70,36 +72,20 @@ let int_to_hexs i =
 ;;
 
 
+(* k : x = keynum : 100            x = 100 * k / keynum *)
 
-
-let middleMake d mx =
+let middleMake d f start n =
 	let rec middle k =
-		if k <= keynum then
+		if k <= n then
 			let khex = (int_to_hexs k) in
-			if k mod 50000 = 0 then Printf.printf "%d ... (%d%%) %! " k (k*100/keynum) else ();
-			Hashtbl.add mx (Encrypt.encrypt khex d) khex;
+			Printf.printf "%s %s\n" (f khex d) khex;
 			middle (k+1)
 		else ()
-	in middle 0
+	in middle start
 ;;
-
-
-
-let middleAttackSingle mx y =
-	for k2 = 0 to keynum do
-		let k2hex = (int_to_hexs k2) in
-		let ed = Decrypt.decrypt k2hex y in
-			try
-				let k1 = Hashtbl.find mx ed in Printf.printf "k1 = %s && k2 = %s\n%!" k1 k2hex
-			with Not_found -> ();
-	done
-;;
-
 
 
 let () =
-	Printf.printf "Creating middleX...\n%!";
-	middleMake dataX middleX;
-	Printf.printf "\nSearching meets...\n%!"; 
-	middleAttackSingle middleX dataY
+	middleMake dataX (Encrypt.encrypt) (keynum/6) (keynum/3); 
+	(*middleMake dataY (Decrypt.decrypt) 0 keynum;*)
 ;;
