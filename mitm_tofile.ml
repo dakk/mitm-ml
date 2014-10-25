@@ -53,15 +53,16 @@ let pow x y =
 	in pow' x y
 ;;
 
-let bits = 20;;
+let bits = 28;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
-let procs = 1;;
-let dataX = "D060DE9D62FC44AF";;
-let dataY = "F20738482D826699";;
+let dataX = "6AAF402B1F93400D";;
+let dataY = "A4CFB906C800C3D9 ";;
 
 (*  
-	./mitm_tofile > ~/e1.txt
+	./mitm_tofile e > ~/e1.txt
+	./mitm_tofile d > ~/d1.txt
+
 	sort --parallel=4 -T ~/tmp -s -n -k 1,1 ~/e1.txt > ~/e2.txt 
 	python find_match.py > res.txt 
 *)
@@ -98,7 +99,12 @@ let middleMakeMulti d f nprocs =
 ;;
 
 
-let () =
-	middleMakeMulti dataX (Encrypt.encrypt) 2; 
-	middleMakeMulti dataY (Decrypt.decrypt) 2;
+
+let op n =
+	if Sys.argv.(1) = "e" then
+		middleMakeMulti dataX (Encrypt.encrypt) n
+	else
+		middleMakeMulti dataY (Decrypt.decrypt) n
 ;;
+
+let () = op 2;;
