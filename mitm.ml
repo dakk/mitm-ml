@@ -21,6 +21,13 @@
 
 	
 	Chiavi da 28:
+		Numero seriale: 49
+		Coppia 1: 17CA0E8D36BA3E5A - 9FEBE85F56228FC5
+		Coppia 2: 85AB1E3237264D55 - 5DEAA765F94FBF07
+		Coppia 3: 510509230EE3D4D5 - 12726B70923A9BA5
+		Tipologia: esercizio B
+		Timestamp: 2014-10-25 18:43:24
+
 		k1 = k2 =
 	
 	Chiavi da 32:
