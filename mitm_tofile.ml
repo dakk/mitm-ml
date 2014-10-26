@@ -57,7 +57,7 @@ let bits = 28;;
 let hexchar = bits / 4;;
 let keynum = pow 2 bits;;
 let dataX = "17CA0E8D36BA3E5A";;
-let dataY = "9FEBE85F56228FC5 ";;
+let dataY = "9FEBE85F56228FC5";;
 
 (*  
 	./mitm_tofile e > ~/e1.txt
@@ -66,7 +66,7 @@ let dataY = "9FEBE85F56228FC5 ";;
 
 	cat ~/e1 ~/d1 > ~/ED.txt
  
-	sort --parallel=4 -T ~/tmp -s -n -k 1,1 ~/ED.txt > ~/e2.txt 
+	sort --parallel=4 -T ~/tmp -s -k 1,1 ~/ED.txt > ~/e2.txt 
 
 	python find_match.py > res.txt 
 *)
@@ -83,7 +83,7 @@ let middleMake d f start n =
 	let rec middle k =
 		if k <= n then
 			let khex = (int_to_hexs k) in
-			Printf.printf "%s %s\n" (f khex d) khex;
+			Printf.printf "%s %s\n%!" (f khex d) khex;
 			middle (k+1)
 		else ()
 	in middle start
@@ -111,4 +111,4 @@ let op n =
 		middleMakeMulti dataY (Decrypt.decrypt) n
 ;;
 
-let () = op 1;;
+let () = op 3;;
